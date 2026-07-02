@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamPortal — Student Login</title>
+  <link rel="stylesheet" href="style.css?v=20260703a">
+</head>
+<body class="login-page">
+
+  <!-- Login Card -->
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <div>
+        <h1>CIM Screening Test</h1>
+        <span>Center of Intelligent Mobility</span>
+      </div>
+    </div>
+
+    <h2>Student Login</h2>
+    <p>Enter your details to begin the exam.</p>
+
+    <div class="field">
+      <label for="name">Full Name</label>
+      <input id="name" type="text" placeholder="e.g. John Smith" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label for="usn">USN</label>
+      <input id="usn" type="text" placeholder="e.g. 01FE23BEC001" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label for="cgpa">CGPA</label>
+      <input id="cgpa" type="number" min="0" max="10" step="0.01" placeholder="e.g. 8.25" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label for="backlogs">Active Backlogs</label>
+      <select id="backlogs">
+        <option value="" disabled selected>Select an option</option>
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+
+    <button class="btn-primary" onclick="login()">View Rules &amp; Continue →</button>
+  </div>
+
+  <!-- Rules Modal -->
+  <div class="modal-overlay" id="rulesModal">
+    <div class="modal">
+      <h3><span class="icon">▤</span> Exam Rules &amp; Guidelines</h3>
+      <ul class="rules-list">
+         <li>
+  <span class="rule-num">1</span>
+  <span><strong>Duration & Questions:</strong> The assessment consists of <strong>50 multiple-choice questions</strong> to be completed within <strong>60 minutes</strong>.</span>
+</li>
+
+<li>
+  <span class="rule-num">2</span>
+  <span><strong>Marking Scheme:</strong> Each correct answer carries equal marks. There is <strong>no negative marking</strong>.</span>
+</li>
+
+<li>
+  <span class="rule-num">3</span>
+  <span><strong>Navigation:</strong> You may move freely between questions and modify your answers at any time before final submission.</span>
+</li>
+
+<li>
+  <span class="rule-num">4</span>
+  <span><strong>Exam Conduct:</strong> Switching tabs, minimizing the browser, using AI tools, search engines, mobile phones, or any external assistance is strictly prohibited. After <strong>3 warnings</strong>, the exam will be automatically submitted.</span>
+</li>
+
+<li>
+  <span class="rule-num">5</span>
+  <span><strong>Submission:</strong> The test will be automatically submitted when the timer expires. By clicking <strong>"Start Exam"</strong>, you confirm that you will complete this assessment independently.</span>
+</li>
+      </ul>
+      <button class="btn-start" onclick="startExam()">I Understand — Start Exam</button>
+    </div>
+  </div>
+
+  <script src="login.js?v=20260703a"></script>
+</body>
+</html>

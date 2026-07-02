@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamPortal — Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css?v=20260703a">
+</head>
+<body class="login-page" id="bodyEl">
+
+  <!-- Key-gate login (shown until a valid admin key is entered) -->
+  <div class="login-card" id="keyGate">
+    <div class="login-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <div>
+        <h1>CIM Screening Test</h1>
+        <span>Admin Dashboard</span>
+      </div>
+    </div>
+
+    <h2>Admin Access</h2>
+    <p>Enter the admin key configured in your Apps Script (ADMIN_KEY) to view results.</p>
+
+    <div class="field">
+      <label for="adminKeyInput">Admin Key</label>
+      <input id="adminKeyInput" type="password" placeholder="Paste your ADMIN_KEY" autocomplete="off">
+    </div>
+
+    <button class="btn-primary" id="unlockBtn">Unlock Dashboard →</button>
+    <p class="key-error" id="keyError"></p>
+  </div>
+
+  <!-- Dashboard (hidden until unlocked) -->
+  <div class="admin-wrap" id="adminWrap">
+    <div class="admin-header">
+      <div class="login-logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div>
+          <h1>CIM Screening Test</h1>
+          <span>Admin Dashboard</span>
+        </div>
+      </div>
+      <button class="btn-skip" id="refreshBtn">⟳ Refresh</button>
+    </div>
+
+    <!-- Summary stat cards -->
+    <div class="admin-stats" id="adminStats"></div>
+
+    <!-- Per-category average breakdown -->
+    <div class="admin-card">
+      <h3>Average Score by Category</h3>
+      <div class="cat-bars" id="catBars"></div>
+    </div>
+
+    <!-- Results table -->
+    <div class="admin-card">
+      <h3>All Submissions</h3>
+      <div class="table-scroll">
+        <table class="admin-table" id="resultsTable">
+          <thead>
+            <tr>
+              <th>Name</th><th>USN</th><th>CGPA</th><th>Backlogs</th><th>Score</th><th>%</th>
+              <th>Time Taken</th><th>Warnings</th><th>Status</th><th>Submitted At</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </div>
+      <p id="emptyState" class="empty-state" style="display:none;">No submissions yet.</p>
+    </div>
+  </div>
+
+  <!-- Student detail modal -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal detail-modal">
+      <h3><span class="icon">▤</span> <span id="detailTitle">Submission Detail</span></h3>
+      <div class="detail-summary" id="detailSummary"></div>
+      <div class="detail-questions" id="detailQuestions"></div>
+      <div class="review-actions">
+        <button class="btn-skip" onclick="closeDetail()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js?v=20260703a"></script>
+</body>
+</html>

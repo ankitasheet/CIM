@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamPortal — Exam</title>
+  <link rel="stylesheet" href="style.css?v=20260703a">
+</head>
+<body class="exam-page">
+
+  <!-- Start gate — must be a real click for fullscreen permission to work -->
+  <div class="fs-gate" id="startGate">
+    <div class="fs-gate-box">
+      <div class="fs-gate-icon">▣</div>
+      <h2>Ready to Begin</h2>
+      <p>This test runs in fullscreen. Leaving fullscreen or switching tabs more than 3 times will end your attempt automatically.</p>
+      <button class="btn-start" id="startBtn">Enter Fullscreen &amp; Start Test</button>
+    </div>
+  </div>
+
+  <!-- Shown if fullscreen is exited mid-test — must click to resume -->
+  <div class="fs-gate" id="resumeGate">
+    <div class="fs-gate-box">
+      <div class="fs-gate-icon">▲</div>
+      <h2>You Left Fullscreen</h2>
+      <p id="resumeWarnText">This counts as a warning. Click below to return to fullscreen and continue your test.</p>
+      <button class="btn-start" id="resumeBtn">Return to Fullscreen</button>
+    </div>
+  </div>
+
+  <!-- Kicked / Disqualified screen -->
+  <div class="kicked-screen" id="kickedScreen">
+    <div class="kick-icon">×</div>
+    <h2>Exam Terminated</h2>
+    <p>You exited fullscreen / switched tabs 3 times. Your attempt has been auto-submitted and flagged for review.</p>
+  </div>
+
+  <!-- Submitted screen (score is intentionally never shown here) -->
+  <div class="submitted-screen" id="submittedScreen">
+    <div class="submit-icon">✓</div>
+    <h2>Your test has been submitted</h2>
+    <p>Thank you for completing the CIM Screening Test. Your responses have been recorded.</p>
+    <p class="submit-redirect">Redirecting to the login page in <span id="submittedCountdown">10</span>s…</p>
+  </div>
+
+  <!-- Warning toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Header bar -->
+  <div class="exam-header">
+    <div class="student-info">
+      <div class="s-name" id="headerName">—</div>
+      <div class="s-usn"  id="headerUsn">—</div>
+    </div>
+    <div class="timer-block" id="timerBlock">
+      <div class="timer-val" id="timer">60:00</div>
+      <div class="timer-label">Time Left</div>
+    </div>
+    <div class="warning-count">
+      <span class="warn-val" id="warnCount">0</span>
+      <span class="warn-lbl">Warnings</span>
+    </div>
+  </div>
+
+  <!-- Progress rail -->
+  <div class="progress-rail" id="progressRail"></div>
+
+  <!-- Stats strip -->
+  <div class="stats-strip">
+    <div class="stat-pill answered">
+      <div class="sp-val" id="statAnswered">0</div>
+      <div class="sp-lbl">Answered</div>
+    </div>
+    <div class="stat-pill skipped">
+      <div class="sp-val" id="statSkipped">0</div>
+      <div class="sp-lbl">Skipped</div>
+    </div>
+    <div class="stat-pill notvisit">
+      <div class="sp-val" id="statNotVisited">0</div>
+      <div class="sp-lbl">Not Visited</div>
+    </div>
+  </div>
+
+  <!-- Question card -->
+  <div class="question-card">
+    <div class="q-meta" id="qMeta">Question 1 of 3</div>
+    <div class="q-text" id="question"></div>
+  </div>
+
+  <!-- Options -->
+  <div class="options-grid" id="options"></div>
+
+  <!-- Primary navigation: Back · (Review · Skip) · Next -->
+  <div class="action-bar">
+    <button class="btn-back" id="backBtn" onclick="prevQuestion()">← Back</button>
+    <div class="action-bar-mid">
+      <button class="btn-review" id="reviewBtn" onclick="openReview()">
+        <span class="icon">▤</span> Review
+      </button>
+      <button class="btn-skip" onclick="skipQuestion()">Skip →</button>
+    </div>
+    <button class="btn-next" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+  </div>
+
+  <!-- The one irreversible action — kept deliberately quiet -->
+  <div class="utility-row">
+    <button class="btn-submit-early" id="submitEarlyBtn" onclick="openConfirmSubmit()">
+      End test now →
+    </button>
+  </div>
+
+  <!-- Review Panel Modal -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal review-modal">
+      <h3><span class="icon">▤</span> Review Your Answers</h3>
+      <div class="review-legend">
+        <span><i class="dot answered"></i> Answered</span>
+        <span><i class="dot visited"></i> Skipped</span>
+        <span><i class="dot notvisit"></i> Not Visited</span>
+        <span><i class="dot current"></i> Current</span>
+      </div>
+      <div class="review-grid" id="reviewGrid"></div>
+      <div class="review-actions">
+        <button class="btn-skip" onclick="closeReview()">Close</button>
+        <button class="btn-next submit" onclick="closeReview(); openConfirmSubmit();">Submit Test</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Submit Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal">
+      <h3><span class="icon">▲</span> Confirm Submission</h3>
+      <p class="confirm-text">
+        You are about to submit your test. This action cannot be undone.
+        Type <strong>CONFIRM</strong> below and press Enter (or click Submit) to proceed.
+      </p>
+      <div class="field">
+        <input type="text" id="confirmInput" autocomplete="off" placeholder="Type CONFIRM here">
+      </div>
+      <div class="review-actions">
+        <button class="btn-skip" onclick="closeConfirmSubmit()">Cancel</button>
+        <button class="btn-next submit" id="confirmSubmitBtn" onclick="trySubmitConfirm()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="questions.js?v=20260703a"></script>
+  <script src="exam.js?v=20260703a"></script>
+</body>
+</html>
